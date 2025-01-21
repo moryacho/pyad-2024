@@ -48,32 +48,16 @@ def functions(a_1, a_2):
 
     def p(x):
         return a2[0] * (x ** 2) + a2[1] * x + a2[2]
+    
+    roots = []
 
-    # экстремум
-    res_f = minimize_scalar(f)
-    res_p = minimize_scalar(p)
-    extr_f = res_f.x
-    extr_p = res_p.x
+    for x in range(-100, 101):
+        f_value = f(x)
+        p_value = p(x)
+        if abs(f_value - p_value) < 0.01:
+            roots.append((x, round(f_value, 2)))
 
-    extr_dots = []
-
-    if not np.isnan(extr_f):
-        extr_dots.append((int(extr_f), int(f(extr_f))))
-
-    if not np.isnan(extr_p):
-        extr_dots.append((int(extr_p), int(p(extr_p))))
-
-    print("extremum dots: ", *extr_dots)
-
-    roots = np.roots([a1[0] - a2[0], a1[1] - a2[1], a1[2] - a2[2]])
-    real_roots = [r for r in roots if np.isreal(r)]
-
-    solutions = []
-    for r in real_roots:
-        solutions.append((int(r.real), int(np.polyval(a1, r.real))))
-
-    unique_solutions = sorted(set(solutions))
-    return unique_solutions
+    return roots
 
 
 def skew(x):
